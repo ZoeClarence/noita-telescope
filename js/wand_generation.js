@@ -232,9 +232,10 @@ function generateLevel1Wand(ws, ng, x, y, type) {
                     level_1_cards.push('DISC_BULLET_BIG');
                     if (prng.Random(1, 100) <= 10) {
                         level_1_cards.push('TENTACLE_PORTAL');
+                        //if (gun['mana_max'] < 140) gun['mana_max'] = 140; // Actually only sets the temp variable mana_max
                         if (prng.Random(1, 100) <= 10) {
                             level_1_cards.push('BLACK_HOLE_BIG');
-                            if (gun['mana_max'] < 240) gun['mana_max'] = 240;
+                            //if (gun['mana_max'] < 240) gun['mana_max'] = 240; // Actually only sets the temp variable mana_max
                         }
                     }
                 }
@@ -303,7 +304,7 @@ function generateLevel1Wand(ws, ng, x, y, type) {
     let cardIndex = prng.Random(0, level_1_cards.length - 1);
     let card = level_1_cards[cardIndex];
 
-    if (card === 'BLACK_HOLE' && gun['mana_max'] < 180) gun['mana_max'] = 180;
+    //if (card === 'BLACK_HOLE' && gun['mana_max'] < 180) gun['mana_max'] = 180; // Actually only sets the temp variable mana_max
 
     for (let i = 0; i < card_count; i++) {
         gun['cards'].push(card);
