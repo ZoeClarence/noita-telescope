@@ -1512,3 +1512,21 @@ export const WAND_SHAPES = [
 	[999, 2, 5, 14, 5, 4, 1, 0, 4, 1, 1],
 	// 1000 exists but only as a prebuilt wand
 ];
+
+export const WAND_TIERS = [
+	'P', '1', '1N',
+	'2', '2N', '2B',
+	'3', '3N', '3B',
+	'4', '4N', '4B',
+	'5', '5N', '5B',
+	'6', '6N', '6B',
+	'10', '10N',
+];
+
+export function getWandTierIndex(w) {
+	if (typeof w.level !== 'number') return WAND_TIERS.indexOf('P');
+	const level = w.level > 10 ? 10 : w.level;
+	if (w.original_force_unshuffle === 1) return WAND_TIERS.indexOf(`${level}N`);
+	if (w.wand_type === 'better') return WAND_TIERS.indexOf(`${level}B`);
+	return WAND_TIERS.indexOf(`${level}`);
+}
