@@ -87,7 +87,9 @@ function generateRawTileBuffer(regionPoints, bbox, wangData, worldSeed, ngPlus, 
     prng.SetRandomFromWorldSeed(worldSeed + ngPlus);
     prng.Next();
 
-    const iters = mapW + (worldSeed + ngPlus) - 11 * Math.floor(mapW / 11) - 12 * Math.floor((worldSeed + ngPlus) / 12);
+    // The tile data repeats after 1024 pixels, and this also clamps the extra PRNG rolls.
+    const effectiveMapWidth = Math.min(mapW, 1024);
+    const iters = effectiveMapWidth + (worldSeed + ngPlus) - 11 * Math.floor(effectiveMapWidth / 11) - 12 * Math.floor((worldSeed + ngPlus) / 12);
     for (let i = 0; i < iters; i++) prng.Next();
     for (let i = 0; i < extraRerolls; i++) prng.Next();
     
@@ -301,6 +303,7 @@ export async function generateBiomeTiles(biomePixels, width, height, biomeConfig
 
     for (let biomeName of Object.keys(biomeConfig)) {
         const conf = biomeConfig[biomeName];
+        if (!conf.wangFile) continue; // Not sure why I didn't have this before.
         if (!conf.enabled) continue;
 
         const offsetY = (conf.offsetY !== undefined) ? conf.offsetY : DEFAULT_OFFSET_Y;
